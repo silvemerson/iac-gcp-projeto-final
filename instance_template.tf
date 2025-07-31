@@ -1,15 +1,15 @@
 resource "google_compute_instance_template" "template_projeto" {
     for_each = google_compute_subnetwork.subnets_projeto
 
-    name = format("%s-template-%s", terraform.workspace, each.key)
+    name = format("%s-%s-%s", terraform.workspace, var.template_name, each.key)
     description = "Template para criação das instâncias do projeto"
 
     tags = ["webapps"]
 
-    machine_type = "e2-medium"
+    machine_type = var.machine_type
 
     disk {
-        source_image = "projects/debian-cloud/global/images/family/debian-12"
+        source_image = var.source_image
         auto_delete  = true
         boot         = true
     }

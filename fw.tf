@@ -1,10 +1,10 @@
 resource "google_compute_firewall" "fw_projeto" {
-    name    = format("%s-fw-projeto", terraform.workspace)
+    name    = format("%s-%s", terraform.workspace, var.fw_name)
     network = google_compute_network.vpc_projeto.self_link
 
     allow {
         protocol = "tcp"
-        ports    = ["22", "80", "443"]
+        ports    = var.allow_rules
     }
 
     allow {

@@ -12,23 +12,64 @@ variable "default_region" {
   
 }
 
-# variable "ip-cidr-range" {
-#     description = "The CIDR range for the subnet."
-#     type        = string
-
+variable "fw_name" {
+    description = "The name of the firewall rule."
+    type        = string
+    default     = "fw-projeto"
   
-# }
+}
 
-# variable "bucket-name" {
-#     description = "The name of the Google Cloud Storage bucket."
-#     type        = string
-#     default     = "tfstate-8749-531"
+variable "allow_rules" {
+    description = "Regras de permissão para o firewall"
+    type = list(string)
+    default = ["22", "80", "443"]
   
-# }
+}
 
-# variable "terraform-state-path" {
-#     description = "The path within the bucket where Terraform state files are stored."
-#     type        = string
-#     default     = "terraform/state"
+variable "vpc_name" {
+    description = "The name of the VPC network."
+    type        = string
+    default     = "vpc-projeto"
   
-# }
+}
+
+variable "subnetworks" {
+    description = "Map of subnetwork configurations."
+    type = map(object({
+        name          = string
+        region        = string
+        ip_cidr_range = string
+    }))
+    default = {
+        "us-subnet-a"   = { name = "us-subnet-a", region = "us-central1", ip_cidr_range = "10.220.0.0/24"}
+        "us-subnet-b"   = { name = "us-subnet-b", region = "us-central1", ip_cidr_range = "10.221.0.0/24"}
+        "asia-subnet-a" = { name = "asia-subnet-a", region = "asia-east1", ip_cidr_range = "10.222.0.0/24"}
+    }
+}
+
+variable "template_name" {
+    description = "The name of the instance template."
+    type        = string
+    default     = "template"
+  
+}
+
+variable "machine_type" {
+    description = "The machine type for the instance template."
+    type        = string
+    default     = "e2-medium"
+  
+}
+
+variable "source_image" {
+    description = "The source image for the instance template."
+    type        = string
+    default     = "projects/debian-cloud/global/images/family/debian-12"
+  
+}
+
+variable "workspace" {
+    description = "The name of the Terraform workspace."
+    type        = string
+  
+}

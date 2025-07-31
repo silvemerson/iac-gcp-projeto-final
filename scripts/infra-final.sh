@@ -30,6 +30,7 @@ sudo cat <<EOF > /var/www/html/index.html
     <body>
     <h1>Bem-vindo ao curso Terraform 4Linux 🚀</h1>
     <h3>Você está na região: ${ZONE}</h3>
+    <h3>Ambiente: ${worksapce}</h3>
     </body>
     </html>
 EOF
