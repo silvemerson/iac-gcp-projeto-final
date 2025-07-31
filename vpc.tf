@@ -4,24 +4,17 @@ resource "google_compute_network" "vpc_projeto" {
   
 }
 
-resource "google_compute_subnetwork" "subnet-us-central1-a" {
-    name          = format("%s-subnet-us-central1-a", terraform.workspace)
-    ip_cidr_range = "10.220.0.0/24"
-    region        = var.default_region
-    network       = google_compute_network.vpc_projeto.id
+resource "google_compute_subnetwork" "subnets_projeto" {
+  for_each = {
+    us-subnet-a    = { name = "us-subnet-a", region = var.default_region, ip_cidr_range = "10.220.0.0/24" }
+    us-subnet-b    = { name = "us-subnet-b", region = var.default_region, ip_cidr_range = "10.221.0.0/24" }
+    asia-subnet-a  = { name = "asia-subnet-a", region = "asia-east1",     ip_cidr_range = "10.222.0.0/24" }
+  }
+
+  name          = format("%s-%s", terraform.workspace, each.value.name)
+  region        = each.value.region
+  ip_cidr_range = each.value.ip_cidr_range
+  network       = google_compute_network.vpc_projeto.id
 }
 
-resource "google_compute_subnetwork" "subnet-us-central1-b" {
-    name          = format("%s-subnet-us-central1-b", terraform.workspace)
-    ip_cidr_range = "10.221.0.0/24"
-    region        = var.default_region
-    network       = google_compute_network.vpc_projeto.id
-  
-}
 
-resource "google_compute_subnetwork" "asia-east1-a" {
-    name          = format("%s-subnet-asia-east1-a", terraform.workspace)
-    ip_cidr_range = "10.222.0.0/24"
-    region        = "asia-east1"
-    network       = google_compute_network.vpc_projeto.id
-}
