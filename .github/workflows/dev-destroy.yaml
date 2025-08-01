@@ -1,9 +1,7 @@
 name: Destroy - Terraform GCP Workflow
 
 on:
-  push:
-    branches:
-      - dev
+  workflow_dispatch:
 
 env: 
   GCP_CRED: ${{ secrets.GCP_CRED }}
