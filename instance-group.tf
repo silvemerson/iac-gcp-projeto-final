@@ -32,6 +32,11 @@ resource "google_compute_region_instance_group_manager" "app-server" {
   region                  = each.value.region
   distribution_policy_zones = each.value.zones
 
+  named_port {
+    name = "http"
+    port = 80
+  }
+
   version {
     instance_template = google_compute_instance_template.template_projeto[each.value.template_key].self_link
   }

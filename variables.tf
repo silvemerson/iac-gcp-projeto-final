@@ -68,8 +68,36 @@ variable "source_image" {
   
 }
 
-variable "workspace" {
-    description = "The name of the Terraform workspace."
+# variable "workspace" {
+#     description = "The name of the Terraform workspace."
+#     type        = string
+  
+# }
+
+variable "health_check_name" {
+    description = "The name of the HTTP health check."
     type        = string
+    default     = "http-health-check-projeto"
+  
+}
+
+variable "health_request_path" {
+    description = "The request path for the health check."
+    type        = string
+    default     = "/"
+  
+}
+
+variable "health_timeout_sec" {
+    description = "The timeout in seconds for the health check."
+    type        = number
+    default     = 1
+  
+}
+
+variable "health_check_interval_sec" {
+    description = "The interval in seconds between health checks."
+    type        = number
+    default     = 1
   
 }
