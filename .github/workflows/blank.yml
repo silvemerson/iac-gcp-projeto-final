@@ -34,8 +34,8 @@ jobs:
 
       - name: Teste Site 4Linux
         run: |
-          curl -s https://www.4linux.com.br | grep "4Linux Treinamentos" || echo "Site 4Linux não encontrado"
-
+          curl -Ik https://www.4linux.com.br
+          
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
