@@ -1,0 +1,53 @@
+name: Destroy - Terraform GCP Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to destroy'
+        required: true
+        default: 'dev'
+
+env: 
+  GCP_CRED: ${{ secrets.GCP_CRED }}
+  GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    if: github.event.inputs.environment == 'dev'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Inicializando Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Configurando credenciais do GCP
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_CRED }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+      
+      - name: google cloud cli
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Terraform init
+        run: terraform init
+      
+      - name: Terraform Validate
+        run: terraform validate
+      
+      - name: Terraform Workpsace
+        run: terraform workspace select dev || terraform workspace new dev
+      
+      - name: Terraform Plan
+        run: terraform plan
+      
+      - name: Terraform Destroy
+        run: terraform destroy -auto-approve
+
+
