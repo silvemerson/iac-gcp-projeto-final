@@ -2,6 +2,11 @@ name: Destroy - Terraform GCP Workflow
 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to destroy'
+        required: true
+        default: 'dev'
 
 env: 
   GCP_CRED: ${{ secrets.GCP_CRED }}
@@ -11,6 +16,9 @@ env:
 jobs:
   terraform:
     runs-on: ubuntu-latest
+
+    if: github.event.inputs.environment == 'dev'
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
